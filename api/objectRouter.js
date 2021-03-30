@@ -19,6 +19,7 @@ objectRouter.post("/", async function (req, res) {
   const object = {
     state: req.body.state,
     location: req.body.location,
+    category: req.body.category,
     when: req.body.when,
   };
 

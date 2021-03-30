@@ -4,18 +4,40 @@ const ObjectSchema = mongoose.Schema({
   state: {
     type: String,
     required: true,
-    enum: ["Perdu", "Trouvé"],
+    enum: ["lost", "found"],
   },
   location: {
-    type: String,
-    required: true,
-    enum: ["Adresse", "Transport", "Aéroport", "Mairie/Police"],
+    value: {
+      type: String,
+      required: true,
+      enum: ["address", "transport", "airport", "police"],
+    },
+    locationAddress: {
+      city: {
+        type: String,
+        required: true,
+      },
+      zipcode: {
+        type: Number,
+        required: true,
+      },
+      street: {
+        type: String,
+        required: true,
+      },
+    },
   },
   category: {
-    type: String,
-    required: true,
-    enum: ["Adresse", "Transport", "Aéroport", "Mairie/Police"],
+    value: {
+      type: String,
+      required: true,
+      enum: ["keys", "phone", "book", "watch"],
+    },
+    description: {
+      type: String,
+    },
   },
+
   when: {
     type: Date,
     required: true,
