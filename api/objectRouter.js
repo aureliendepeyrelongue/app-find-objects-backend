@@ -1,14 +1,14 @@
 const express = require("express");
 var objectRouter = express.Router();
 const { body, validationResult } = require("express-validator");
-const objectService = require("../services/objectService");
+const ObjectService = require("../services/ObjectService");
 const authMiddleware = require("../middlewares/authMiddleware");
 
 objectRouter.use(authMiddleware);
 
 objectRouter.get("/", async function (req, res) {
   try {
-    const serviceAnswer = await objectService.getObjects();
+    const serviceAnswer = await ObjectService.getObjects();
     res.json(serviceAnswer);
   } catch (err) {
     res.status(err.httpStatusCode).json({ err: err.message });
@@ -24,7 +24,7 @@ objectRouter.post("/", async function (req, res) {
   };
 
   try {
-    const serviceAnswer = await objectService.postObject(object);
+    const serviceAnswer = await ObjectService.postObject(object);
     res.json(serviceAnswer);
   } catch (err) {
     res.status(err.httpStatusCode).json({ err: err.message });

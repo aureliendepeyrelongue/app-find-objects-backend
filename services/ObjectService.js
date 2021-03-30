@@ -4,8 +4,8 @@ const User = require("../models/User");
 
 const ServiceError = require("../errors/ServiceError");
 
-const objectService = {
-  async postObject(object) {
+class ObjectService {
+  static async postObject(object) {
     try {
       const postedObject = new Object(object);
       const data = await postedObject.save();
@@ -17,8 +17,8 @@ const objectService = {
         503
       );
     }
-  },
-  async getObjects() {
+  }
+  static async getObjects() {
     try {
       const objects = await Object.find();
       return objects;
@@ -29,10 +29,10 @@ const objectService = {
         503
       );
     }
-  },
-  getObjectsByRange(startRange, endRange) {
+  }
+  static async getObjectsByRange(startRange, endRange) {
     return [];
-  },
-};
+  }
+}
 
-module.exports = objectService;
+module.exports = ObjectService;
