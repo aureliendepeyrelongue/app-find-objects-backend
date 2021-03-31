@@ -5,13 +5,13 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 var cors = require("cors");
-
 app.use(cors());
 
 const bodyParser = require("body-parser");
-
 app.use(bodyParser.json());
 // Import routes
+
+app.use(express.static("./public"));
 
 const commonRouter = require("./api/commonRouter");
 const objectRouter = require("./api/objectRouter");
@@ -30,7 +30,7 @@ mongoose.connect(
     useNewUrlParser: true,
     useUnifiedTopology: true,
   },
-  () => console.log("Connected to db")
+  () => console.log("Connected to db.")
 );
 
 app.listen(process.env.PORT, () => {
