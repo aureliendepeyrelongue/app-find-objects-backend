@@ -1,23 +1,42 @@
 var express = require("express");
 var authRouter = express.Router();
 const UserService = require("../services/UserService");
+const { body, check, validationResult } = require("express-validator");
 
 // define the authentication routes
-authRouter.post("/registration", async function (req, res) {
-  const { firstName, lastName, email, password } = req.body;
+authRouter.post(
+  "/registration",
 
-  try {
-    const serviceAnswer = await UserService.postUser(
-      firstName,
-      lastName,
-      email,
-      password
-    );
-    res.json(serviceAnswer);
-  } catch (err) {
-    res.status(err.httpStatusCode).json({ err: err.message });
+  body("email", "emailError").isEmail(),
+  body("password", "passwordLengthError").isLength({ min: 6 }),
+  body("confirmPassword", "emailError")
+    .exists()
+    .custom((value, { req }) => value === req.body.password),
+
+  async function (req, res, next) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { firstName, lastName, email, password } = req.body;
+
+    try {
+      const serviceAnswer = await UserService.postUser(
+        firstName,
+        lastName,
+        email,
+        password
+      );
+
+      res.json(serviceAnswer);
+    } catch (err) {
+      next(err);
+    }
   }
-});
+);
+
 authRouter.get("/registration", function (req, res) {
   res.send("registration home page");
 });

@@ -6,16 +6,16 @@ const authMiddleware = require("../middlewares/authMiddleware");
 
 objectRouter.use(authMiddleware);
 
-objectRouter.get("/", async function (req, res) {
+objectRouter.get("/", async function (req, res, next) {
   try {
     const serviceAnswer = await ObjectService.getObjects();
     res.json(serviceAnswer);
   } catch (err) {
-    res.status(err.httpStatusCode).json({ err: err.message });
+    next(err);
   }
 });
 
-objectRouter.post("/", async function (req, res) {
+objectRouter.post("/", async function (req, res, next) {
   const object = {
     state: req.body.state,
     location: req.body.location,
@@ -27,7 +27,7 @@ objectRouter.post("/", async function (req, res) {
     const serviceAnswer = await ObjectService.postObject(object);
     res.json(serviceAnswer);
   } catch (err) {
-    res.status(err.httpStatusCode).json({ err: err.message });
+    next(err);
   }
 });
 

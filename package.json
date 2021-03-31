@@ -4,7 +4,8 @@
   "description": "Find and manage your lost objects",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
   },
   "author": "Aurélien de Peyrelongue",
   "license": "ISC",
@@ -16,5 +17,8 @@
     "express": "^4.17.1",
     "express-validator": "^6.10.0",
     "mongoose": "^5.12.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
   }
 }

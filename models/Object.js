@@ -16,14 +16,17 @@ const ObjectSchema = mongoose.Schema({
       city: {
         type: String,
         required: true,
+        trim: true,
       },
       zipcode: {
         type: Number,
         required: true,
+        trim: true,
       },
       street: {
         type: String,
         required: true,
+        trim: true,
       },
     },
   },
@@ -35,6 +38,7 @@ const ObjectSchema = mongoose.Schema({
     },
     description: {
       type: String,
+      trim: true,
     },
   },
 

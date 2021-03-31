@@ -2,13 +2,11 @@ const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-dotenv.config();
-
 var cors = require("cors");
-app.use(cors());
 
-const bodyParser = require("body-parser");
-app.use(bodyParser.json());
+dotenv.config();
+app.use(cors());
+app.use(express.json());
 // Import routes
 
 app.use(express.static("./public"));
@@ -17,12 +15,13 @@ const commonRouter = require("./api/commonRouter");
 const objectRouter = require("./api/objectRouter");
 const userRouter = require("./api/userRouter");
 const authRouter = require("./api/authRouter");
+const errorsMiddleware = require("./middlewares/errorsMiddleware");
 
 app.use(commonRouter);
 app.use("/objects", objectRouter);
 app.use("/users", userRouter);
 app.use("/authentication", authRouter);
-
+app.use(errorsMiddleware);
 // Connect to DB
 mongoose.connect(
   process.env.DB_CONNECTION,
