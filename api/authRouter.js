@@ -37,6 +37,30 @@ authRouter.post(
   }
 );
 
+authRouter.post(
+  "/login",
+
+  body("email", "emailError").isEmail(),
+  body("password", "passwordLengthError").isLength({ min: 6 }),
+
+  async function (req, res, next) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email, password } = req.body;
+    console.log(email, password);
+    try {
+      const serviceAnswer = await UserService.authenticateUser(email, password);
+      res.json(serviceAnswer);
+    } catch (err) {
+      next(err);
+    }
+  }
+);
+
 authRouter.get("/registration", function (req, res) {
   res.send("registration home page");
 });

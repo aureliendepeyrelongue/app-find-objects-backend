@@ -19,6 +19,35 @@ class UserService {
       );
     }
   }
+  static async authenticateUser(email, password) {
+    try {
+      const user = await User.findOne({ email });
+      if (!user) {
+        throw new ServiceError(
+          "Erreur, impossible d'authentifier l'utilisateur.",
+          0,
+          401
+        );
+      }
+      const match = await bcrypt.compare(password, user.password);
+
+      if (!match) {
+        throw new ServiceError(
+          "Erreur, impossible d'authentifier l'utilisateur.",
+          0,
+          401
+        );
+      }
+      return user;
+    } catch (err) {
+      console.error(err.stack);
+      throw new ServiceError(
+        "Erreur, impossible d'authentifier l'utilisateur.",
+        err.code,
+        401
+      );
+    }
+  }
 }
 
 module.exports = UserService;
