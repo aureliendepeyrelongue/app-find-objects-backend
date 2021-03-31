@@ -3,6 +3,10 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const saltRounds = 12;
 const ServiceError = require("../errors/ServiceError");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+dotenv.config();
+
 class UserService {
   static getUsers() {}
   static async postUser(firstName, lastName, email, password) {
@@ -19,6 +23,13 @@ class UserService {
       );
     }
   }
+
+  static generateUserToken(user) {
+    return jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
+      expiresIn: "24h",
+    });
+  }
+
   static async authenticateUser(email, password) {
     try {
       const user = await User.findOne({ email });

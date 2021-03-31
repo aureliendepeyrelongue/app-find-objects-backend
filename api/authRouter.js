@@ -51,10 +51,11 @@ authRouter.post(
     }
 
     const { email, password } = req.body;
-    console.log(email, password);
+
     try {
-      const serviceAnswer = await UserService.authenticateUser(email, password);
-      res.json(serviceAnswer);
+      const user = await UserService.authenticateUser(email, password);
+      const token = await UserService.generateUserToken(user);
+      res.json({ token });
     } catch (err) {
       next(err);
     }
