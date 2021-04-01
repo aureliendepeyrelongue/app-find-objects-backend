@@ -55,7 +55,15 @@ authRouter.post(
     try {
       const user = await UserService.authenticateUser(email, password);
       const token = await UserService.generateUserToken(user);
-      res.json({ token });
+
+      res.json({
+        user: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+        },
+        token,
+      });
     } catch (err) {
       next(err);
     }

@@ -19,7 +19,7 @@ const ObjectSchema = mongoose.Schema({
         trim: true,
       },
       zipcode: {
-        type: Number,
+        type: String,
         required: true,
         trim: true,
       },

@@ -11,6 +11,7 @@ function authMiddleware(req, res, next) {
   try {
     var decoded = jwt.verify(token, process.env.TOKEN_SECRET);
     req.userId = decoded;
+    console.log("success de l'authentification.");
     next();
   } catch (err) {
     var errToSend = {
