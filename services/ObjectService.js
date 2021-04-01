@@ -20,6 +20,18 @@ class ObjectService {
       );
     }
   }
+  static async updateObjectById(object, objectId) {
+    try {
+      let answer = await Object.findOneAndUpdate({ _id: objectId }, object);
+      return answer;
+    } catch (err) {
+      console.log(err);
+      throw new ServiceError(
+        "Erreur, impossible de mettre à jour l'objet dans la base de donnée.",
+        503
+      );
+    }
+  }
   static async getObjects() {
     try {
       const objects = await Object.find().populate("user", {
@@ -32,6 +44,17 @@ class ObjectService {
       throw new ServiceError(
         "Erreur, impossible d'obtenir les objets de la base de donnée.",
         503
+      );
+    }
+  }
+  static async getObjectById(objectId) {
+    try {
+      const object = await Object.findOne({ _id: objectId });
+      return object;
+    } catch (err) {
+      throw new ServiceError(
+        "Erreur, impossible d'obtenir l'objet de la base de donnée.",
+        err.code
       );
     }
   }

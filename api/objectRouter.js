@@ -25,6 +25,33 @@ objectRouter.get("/from-user", async function (req, res, next) {
   }
 });
 
+objectRouter.get("/:id", async function (req, res, next) {
+  try {
+    const serviceAnswer = await ObjectService.getObjectById(req.params.id);
+    res.json(serviceAnswer);
+  } catch (err) {
+    next(err);
+  }
+});
+
+objectRouter.put("/:id", async function (req, res, next) {
+  try {
+    const object = {
+      state: req.body.state,
+      location: req.body.location,
+      category: req.body.category,
+      when: req.body.when,
+    };
+    const serviceAnswer = await ObjectService.updateObjectById(
+      object,
+      req.params.id
+    );
+    res.json(serviceAnswer);
+  } catch (err) {
+    next(err);
+  }
+});
+
 objectRouter.post("/", async function (req, res, next) {
   const object = {
     state: req.body.state,
