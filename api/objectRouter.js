@@ -2,6 +2,7 @@ const express = require("express");
 var objectRouter = express.Router();
 const { body, validationResult } = require("express-validator");
 const ObjectService = require("../services/ObjectService");
+const UserService = require("../services/UserService");
 const authMiddleware = require("../middlewares/authMiddleware");
 
 objectRouter.use(authMiddleware);
@@ -24,7 +25,9 @@ objectRouter.post("/", async function (req, res, next) {
   };
 
   try {
-    const serviceAnswer = await ObjectService.postObject(object);
+    console.log(req.userId);
+    //const user = await UserService.getUserById(req.userId);
+    const serviceAnswer = await ObjectService.postObject(object, req.userId);
     res.json(serviceAnswer);
   } catch (err) {
     next(err);

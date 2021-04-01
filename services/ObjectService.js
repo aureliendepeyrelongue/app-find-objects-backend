@@ -3,10 +3,12 @@ const Object = require("../models/Object");
 const User = require("../models/User");
 
 const ServiceError = require("../errors/ServiceError");
+const UserService = require("./UserService");
 
 class ObjectService {
-  static async postObject(object) {
+  static async postObject(object, userId) {
     try {
+      object.user = userId;
       const postedObject = new Object(object);
       const data = await postedObject.save();
       return data;
@@ -20,7 +22,10 @@ class ObjectService {
   }
   static async getObjects() {
     try {
-      const objects = await Object.find();
+      const objects = await Object.find().populate("user", {
+        firstName: 1,
+        lastName: 1,
+      });
       return objects;
     } catch (err) {
       console.log(err);

@@ -24,6 +24,18 @@ class UserService {
     }
   }
 
+  static async getUserById(userId) {
+    try {
+      const user = await User.findOne({ _id: userId });
+      return user;
+    } catch (err) {
+      throw new ServiceError(
+        "Erreur, impossible d'ajouter l'utilisateur à la base de donnée.",
+        err.code
+      );
+    }
+  }
+
   static generateUserToken(user) {
     return jwt.sign({ userId: user._id }, process.env.TOKEN_SECRET, {
       expiresIn: "24h",
