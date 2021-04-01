@@ -35,6 +35,18 @@ class ObjectService {
       );
     }
   }
+  static async getObjectsFromUser(userId) {
+    try {
+      const objects = await Object.find({ user: userId });
+      return objects;
+    } catch (err) {
+      console.log(err);
+      throw new ServiceError(
+        "Erreur, impossible d'obtenir les objets de la base de donnée.",
+        503
+      );
+    }
+  }
   static async getObjectsByRange(startRange, endRange) {
     return [];
   }

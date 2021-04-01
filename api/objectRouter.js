@@ -16,6 +16,15 @@ objectRouter.get("/", async function (req, res, next) {
   }
 });
 
+objectRouter.get("/from-user", async function (req, res, next) {
+  try {
+    const serviceAnswer = await ObjectService.getObjectsFromUser(req.userId);
+    res.json(serviceAnswer);
+  } catch (err) {
+    next(err);
+  }
+});
+
 objectRouter.post("/", async function (req, res, next) {
   const object = {
     state: req.body.state,
