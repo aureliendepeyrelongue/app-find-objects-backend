@@ -58,6 +58,17 @@ class ObjectService {
       );
     }
   }
+  static async deleteObjectById(objectId) {
+    try {
+      const res = await Object.deleteOne({ _id: objectId });
+      return res;
+    } catch (err) {
+      throw new ServiceError(
+        "Erreur, impossible d'obtenir l'objet de la base de donnée.",
+        err.code
+      );
+    }
+  }
   static async getObjectsFromUser(userId) {
     try {
       const objects = await Object.find({ user: userId });

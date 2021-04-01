@@ -52,6 +52,15 @@ objectRouter.put("/:id", async function (req, res, next) {
   }
 });
 
+objectRouter.delete("/:id", async function (req, res, next) {
+  try {
+    const serviceAnswer = await ObjectService.deleteObjectById(req.params.id);
+    res.json(serviceAnswer);
+  } catch (err) {
+    next(err);
+  }
+});
+
 objectRouter.post("/", async function (req, res, next) {
   const object = {
     state: req.body.state,
